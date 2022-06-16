@@ -100,6 +100,13 @@ function! s:select(include_empty_lines_p, block_border_type)  "{{{2
     let start_linenr = line('$')
   endif
 
+  " trim to at most one empty line at the end
+  if getline(end_linenr) == ''
+    while end_linenr > 1 && getline(end_linenr - 1) == ''
+      let end_linenr -= 1
+    endwhile
+  endif
+
   " Select the cursor line only
   " if <Plug>(textobj-indent-i) is executed in the last empty lines.
   if ((!a:include_empty_lines_p)
